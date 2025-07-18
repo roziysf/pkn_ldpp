@@ -165,14 +165,14 @@
 						</a>
 					</li>
 
-					<li class="treeview">
+					<!-- <li class="treeview">
 						<a href="?page=lunas-tagihan">
 							<i class="fa fa-money"></i>
 							<span>Pembayaran Lunas</span>
 							<span class="pull-right-container">
 							</span>
 						</a>
-					</li>
+					</li> -->
 
 
 					<li class="header">OTHER</li>
@@ -306,7 +306,7 @@
 			</div>
 			<center>
 				<strong>Copyright &copy;
-					<a href=""> LDP | 2024 </strong></a>
+					<a href=""> LDP | 2025 </strong></a>
 			</center>
 		</footer>
 		<div class="control-sidebar-bg"></div>

@@ -193,7 +193,7 @@
 			</div>
 			<center>
 				<strong>Copyright &copy;
-					<a href="https://webapk.my.id">BJ-NET</a></strong> | 2023
+					<a href="https://webapk.my.id">LDP</a></strong> | 2025
 			</center>
 		</footer>
 		<div class="control-sidebar-bg"></div>

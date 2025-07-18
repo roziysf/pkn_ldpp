@@ -68,7 +68,7 @@
 									<tbody>
 										<?php
 										$no = 1;
-										$sql = $koneksi->query("SELECT p.id_pelanggan, p.nama, k.id_paket, k.paket, k.tarif 
+										$sql = $koneksi->query("SELECT p.id_pelanggan, p.nama, k.paket, k.tarif 
 																FROM tb_pelanggan p 
 																INNER JOIN tb_paket k ON p.id_paket=k.id_paket 
 																ORDER BY id_pelanggan");
@@ -91,9 +91,9 @@
 												<td>
 													<input type="text" class="form-control" value="<?php echo $data['tarif']; ?>" readonly>
 												</td>
-												<!-- Hidden Input untuk Tarif dan ID Paket -->
+												<!-- Hidden Input untuk Tarif dan NAMA Paket -->
 												<input type="hidden" name="tarif[<?php echo $data['id_pelanggan']; ?>]" value="<?php echo $data['tarif']; ?>">
-												<input type="hidden" name="id_paket[<?php echo $data['id_pelanggan']; ?>]" value="<?php echo $data['id_paket']; ?>">
+												<input type="hidden" name="paket[<?php echo $data['id_pelanggan']; ?>]" value="<?php echo $data['paket']; ?>">
 											</tr>
 										<?php } ?>
 									</tbody>
@@ -110,7 +110,6 @@
 
 				<?php
 				if (isset($_POST['Simpan'])) {
-
 					$bulan = $_POST['bulan'];
 					$tahun = $_POST['tahun'];
 					$pilih = $_POST['pilih']; // hanya pelanggan yang dicentang
@@ -118,36 +117,58 @@
 					if (!empty($pilih)) {
 						foreach ($pilih as $id_pelanggan) {
 							$tarif = $_POST['tarif'][$id_pelanggan];
-							$id_paket = $_POST['id_paket'][$id_pelanggan];
+							$paket = $_POST['paket'][$id_pelanggan]; // pake nama paket sekarang
 
-							$sql_simpan = "INSERT INTO tb_tagihan (bulan, tahun, id_pelanggan, id_paket, tagihan, status) VALUES (
-								'$bulan',
-								'$tahun',
-								'$id_pelanggan',
-								'$id_paket',
-								'$tarif',
-								'BL')";
-							$query_simpan = mysqli_query($koneksi, $sql_simpan);
+							// Cek apakah tagihan sudah ada
+							$cek = mysqli_query($koneksi, 
+								"SELECT * FROM tb_tagihan 
+								 WHERE id_pelanggan='$id_pelanggan' 
+								 AND bulan='$bulan' 
+								 AND tahun='$tahun'");
+
+							if (mysqli_num_rows($cek) == 0) {
+								$sql_simpan = "INSERT INTO tb_tagihan 
+									(bulan, tahun, id_pelanggan, id_paket, tagihan, status, tgl_bayar) 
+									VALUES (
+										'$bulan',
+										'$tahun',
+										'$id_pelanggan',
+										'$paket', 
+										'$tarif',
+										'BL',
+										NULL)";
+								$query_simpan = mysqli_query($koneksi, $sql_simpan);
+							}
 						}
 					}
 
 					if ($query_simpan) {
 						mysqli_close($koneksi);
 						echo "<script>
-							Swal.fire({title: 'Buat Tagihan Berhasil', text: '', icon: 'success', confirmButtonText: 'OK'
+							Swal.fire({
+								title: 'Buat Tagihan Berhasil', 
+								text: '', 
+								icon: 'success', 
+								confirmButtonText: 'OK'
 							}).then((result) => {
 								if (result.value) {
 									window.location = 'index.php?page=buka-tagihan';
 								}
-							})</script>";
+							})
+						</script>";
 					} else {
 						echo "<script>
-							Swal.fire({title: 'Buat Tagihan Gagal', text: '', icon: 'error', confirmButtonText: 'OK'
+							Swal.fire({
+								title: 'Buat Tagihan Gagal', 
+								text: '', 
+								icon: 'error', 
+								confirmButtonText: 'OK'
 							}).then((result) => {
 								if (result.value) {
 									window.location = 'index.php?page=buat-tagihan';
 								}
-							})</script>";
+							})
+						</script>";
 					}
 				}
 				?>

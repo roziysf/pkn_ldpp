@@ -18,7 +18,7 @@
         Swal.fire({title: 'Pembayaran Berhasil',text: '',icon: 'success',confirmButtonText: 'OK'
         }).then((result) => {
             if (result.value) {
-                window.location = 'index.php?page=lunas-tagihan';
+                window.location = 'index.php?page=buka-tagihan';
             }
         })</script>";
         }else{
@@ -26,7 +26,7 @@
         Swal.fire({title: 'Pembayaran Gagal',text: '',icon: 'error',confirmButtonText: 'OK'
         }).then((result) => {
             if (result.value) {
-                window.location = 'index.php?page=lunas-tagihan';
+                window.location = 'index.php?page=buka-tagihan';
             }
         })</script>";
 	}

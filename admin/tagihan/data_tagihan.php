@@ -53,53 +53,42 @@
 					<tbody>
 
 						<?php
-                  $no = 1;
-                  $sql = $koneksi->query("SELECT p.id_pelanggan, p.nama, p.no_hp, t.id_tagihan, t.tagihan, t.status, t.tgl_bayar 
-				  from tb_pelanggan p inner join tb_tagihan t on p.id_pelanggan=t.id_pelanggan where bulan='$bulan' and tahun='$tahun' and status='BL'
-				  order by status asc");
-                  while ($data= $sql->fetch_assoc()) {
-                ?>
+$no = 1;
+$sql = $koneksi->query("SELECT p.id_pelanggan, p.nama, p.no_hp, t.id_tagihan, t.tagihan, t.status, t.tgl_bayar 
+    FROM tb_pelanggan p 
+    INNER JOIN tb_tagihan t ON p.id_pelanggan=t.id_pelanggan 
+    WHERE t.bulan='$bulan' AND t.tahun='$tahun' AND t.status='BL'
+    ORDER BY t.tahun DESC, t.bulan DESC, t.tgl_bayar DESC, t.id_tagihan DESC");
 
-						<tr>
-							<td>
-								<?php echo $no++; ?>
-							</td>
-							<td>
-								<?php echo $data['id_pelanggan']; ?>
-							</td>
-							<td>
-								<?php echo $data['nama']; ?>
-							</td>
-							<td>
-								<?php echo rupiah($data['tagihan']); ?>
-							</td>
-							<td>
-								<?php $stt = $data['status']  ?>
-								<?php if($stt == 'BL'){ ?>
-								<span class="label label-danger">Belum Bayar</span>
-								<?php }elseif($stt == 'LS'){ ?>
-								<span class="label label-primary">Lunas</span>
-								(
-								<?php echo $data['tgl_bayar']; ?>)
-							</td>
-							<?php } ?>
+while ($data = $sql->fetch_assoc()) {
+?>
+<tr>
+    <td><?= $no++; ?></td>
+    <td><?= $data['id_pelanggan']; ?></td>
+    <td><?= $data['nama']; ?></td>
+    <td><?= rupiah($data['tagihan']); ?></td>
+    <td>
+        <?php if ($data['status'] == 'BL') { ?>
+            <span class="label label-danger">Belum Bayar</span>
+        <?php } elseif ($data['status'] == 'LS') { ?>
+            <span class="label label-primary">Lunas</span> (<?= $data['tgl_bayar']; ?>)
+        <?php } ?>
+    </td>
+    <td>
+        <a href="?page=bayar-tagihan&kode=<?= $data['id_tagihan']; ?>" class="btn btn-info">
+            <i class="glyphicon glyphicon-ok"></i> BAYAR
+        </a>
+        <a href="https://api.whatsapp.com/send?phone=<?= $data['no_hp']; ?>&text=Salam,%20Bpk/Ibu/Sdr/i%20<?= $data['nama']; ?>,
+        %0AMohon%20untuk%20melakukan%20pembayaran%20Tagihan%20Internet%20untuk%20Bulan%20<?= $bulan; ?>%20Tahun%20<?= $tahun; ?>.%20
+        Pembayaran%20bisa%20dengan%20transfer%20ke:%0ARek. Mandiri%0ANo:%200383888888%0Aa.n:%20AdminKtmNet
+        %0A%0AKirim%20Bukti%20Pembayaran%20ke%20WA%20ini.%20Terima%20kasih%0A%0A*Admin KTM Cell*" 
+        target="_blank" class="btn btn-gray">
+            <img src="dist/img/wa2.png">
+        </a>
+    </td>
+</tr>
+<?php } ?>
 
-							<td>
-								<a href="?page=bayar-tagihan&kode=<?php echo $data['id_tagihan']; ?>" title="Bayar Tagihan"
-								 class="btn btn-info">
-									<i class="glyphicon glyphicon-ok"></i> BAYAR
-								</a>
-								<a href="https://api.whatsapp.com/send?phone=<?php echo $data['no_hp']; ?>&text=Salam,%20Bpk/Ibu/Sdr/i%20<?php echo $data['nama']; ?>,%0A
-								Mohon%20untuk%20melakukan%20pembayaran%20Tagihan%20Internet%20untuk%20Bulan%20<?php echo $bulan; ?>%20Tahun%20<?php echo $tahun; ?>.%20Pembayaran%20bisa%20dengan%20transfer%20ke:%0ARek. Mandiri%0ANo:%20 0383888888%0A a.n:%20AdminKtmNet
-								%0A%0AKirim%20Bukti%20Pembayaran%20ke%20WA%20ini.%20Terima%20kasih%0A%0A*Admin KTM Cell*"
-								 target=" _blank" title="Pesan WhatsApp" class="btn btn-gray">
-									<img src="dist/img/wa2.png">
-								</a>
-							</td>
-						</tr>
-						<?php
-						}
-						?>
 					</tbody>
 
 				</table>
