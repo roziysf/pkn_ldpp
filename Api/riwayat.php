@@ -36,6 +36,8 @@ $sql = "
     t.tagihan,
     t.status,
     t.tgl_bayar,
+    t.trx,
+    t.invoice,
     p.paket AS nama_paket,
     p.tarif
   FROM tb_tagihan t
