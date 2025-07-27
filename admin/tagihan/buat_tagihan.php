@@ -128,7 +128,7 @@
 
 							if (mysqli_num_rows($cek) == 0) {
 								$sql_simpan = "INSERT INTO tb_tagihan 
-									(bulan, tahun, id_pelanggan, id_paket, tagihan, status, tgl_bayar) 
+									(bulan, tahun, id_pelanggan, id_paket, tagihan, status, tgl_bayar,trx,invoice) 
 									VALUES (
 										'$bulan',
 										'$tahun',
@@ -136,7 +136,7 @@
 										'$paket', 
 										'$tarif',
 										'BL',
-										NULL)";
+										NULL,NULL,NULL)";
 								$query_simpan = mysqli_query($koneksi, $sql_simpan);
 							}
 						}

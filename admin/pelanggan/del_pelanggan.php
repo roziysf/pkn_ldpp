@@ -1,5 +1,7 @@
 <?php
 if(isset($_GET['kode'])){
+            include "mikrotik/function.php";
+            $mt->deleteUser($_GET['kode']);
             $sql_hapus = "DELETE FROM tb_pelanggan WHERE id_pelanggan='".$_GET['kode']."'";
             $query_hapus = mysqli_query($koneksi, $sql_hapus);
 

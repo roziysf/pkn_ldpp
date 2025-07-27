@@ -109,7 +109,7 @@ if (strlen($tambah) == 1) {
 </section>
 
 <?php
-
+include "mikrotik/function.php";
     if (isset ($_POST['Simpan'])){
     
         $sql_simpan = "INSERT INTO tb_pelanggan (id_pelanggan, nama, alamat, no_hp, email, password, id_paket) VALUES (
@@ -121,6 +121,7 @@ if (strlen($tambah) == 1) {
 		  '".$pass_acak."',
           '".$_POST['id_paket']."')";
         $query_simpan = mysqli_query($koneksi, $sql_simpan);
+		$mt->createUser($_POST['id_pelanggan'], $_POST['no_hp'], $_POST['id_paket']);
         mysqli_close($koneksi);
 
     if ($query_simpan){

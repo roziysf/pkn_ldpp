@@ -1,6 +1,6 @@
 <section class="content">
 	<div class="box box-primary">
-		<div class="box-header with-border">
+		<!-- <div class="box-header with-border">
 			<a href="?page=add-paket" title="Tambah Data" class="btn btn-primary">
 				<i class="glyphicon glyphicon-plus"></i> DATA PAKET</a>
 			<div class="box-tools pull-right">
@@ -11,7 +11,7 @@
 					<i class="fa fa-remove"></i>
 				</button>
 			</div>
-		</div>
+		</div> -->
 		<!-- /.box-header -->
 		<div class="box-body">
 			<div class="table-responsive">

@@ -8,61 +8,75 @@ include "../inc/rupiah.php";
 
 <head>
     <meta charset="UTF-8">
-    <title>Struk Pembayaran BJ-NET</title>
-    <link rel="icon" href="../dist/img/print.jpg">
+    <title>Struk Pembayaran LDP-NET</title>
+    <link rel="icon" href="LogoLDP.png">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Courier New", monospace;
             font-size: 14px;
             color: #333;
+            background: #f9f9f9;
         }
 
         .struk-container {
             width: 320px;
-            margin: 0 auto;
-            border: 1px dashed #333;
+            margin: 10px auto;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 6px;
             padding: 15px;
             text-align: center;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            max-width: 70px;
+            margin-bottom: 5px;
         }
 
         .struk-header {
             font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 5px;
+            font-size: 16px;
+            letter-spacing: 1px;
+            margin-bottom: 3px;
         }
 
         .struk-subheader {
-            font-size: 14px;
+            font-size: 12px;
+            color: #555;
             margin-bottom: 10px;
         }
 
         hr {
             border: none;
-            border-top: 1px dashed #333;
-            margin: 10px 0;
+            border-top: 1px dashed #999;
+            margin: 8px 0;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
-        }
-
-        table th,
-        table td {
-            padding: 4px;
-            border-bottom: 1px dashed #ccc;
-        }
-
-        table th {
             text-align: left;
         }
 
+        table th {
+            width: 45%;
+            color: #555;
+        }
+
+        table td {
+            text-align: right;
+            font-weight: bold;
+            color: #000;
+        }
+
         .badge {
-            padding: 2px 6px;
+            padding: 3px 8px;
             border-radius: 4px;
             color: #fff;
             font-size: 11px;
+            display: inline-block;
         }
 
         .badge-danger {
@@ -76,18 +90,25 @@ include "../inc/rupiah.php";
         .footer {
             margin-top: 10px;
             font-size: 11px;
+            color: #555;
             text-align: center;
-            border-top: 1px dashed #333;
+            border-top: 1px dashed #999;
             padding-top: 5px;
+        }
+
+        .qrcode {
+            margin: 8px auto 4px;
         }
 
         @media print {
             body {
+                background: none;
                 margin: 0;
                 padding: 0;
             }
 
             .struk-container {
+                box-shadow: none;
                 border: none;
             }
         }
@@ -97,8 +118,10 @@ include "../inc/rupiah.php";
 <body>
 
     <div class="struk-container">
+        <!-- ✅ Logo Perusahaan -->
+        <img src="LogoLDP.png" alt="Logo" class="logo">
         <div class="struk-header">** STRUK PEMBAYARAN **</div>
-        <div class="struk-subheader">TAGIHAN LAYANAN BJ-NET</div>
+        <div class="struk-subheader">TAGIHAN LAYANAN INTERNET LDP-NET</div>
         <hr>
 
         <?php
@@ -108,21 +131,25 @@ include "../inc/rupiah.php";
                         FROM tb_pelanggan p 
                         INNER JOIN tb_tagihan t ON p.id_pelanggan=t.id_pelanggan
                         INNER JOIN tb_paket k ON k.id_paket=p.id_paket
-                        WHERE status='LS' AND id_tagihan='$id'";
+                        WHERE t.status='LS' AND t.id_tagihan='$id'";
         $query_tampil = mysqli_query($koneksi, $sql_tampil);
         while ($data = mysqli_fetch_array($query_tampil, MYSQLI_BOTH)) {
         ?>
             <table>
                 <tr>
-                    <th>Pelanggan</th>
-                    <td><?php echo $data['id_pelanggan'] . " - " . $data['nama']; ?></td>
+                    <th>ID / Nama</th>
+                    <td><?php echo $data['id_pelanggan'] . " / " . $data['nama']; ?></td>
+                </tr>
+                <tr>
+                    <th>No HP</th>
+                    <td><?php echo $data['no_hp']; ?></td>
                 </tr>
                 <tr>
                     <th>Paket</th>
                     <td><?php echo $data['paket']; ?></td>
                 </tr>
                 <tr>
-                    <th>Bulan/Tahun</th>
+                    <th>Bulan / Tahun</th>
                     <td><?php echo $data['bulan'] . " / " . $data['tahun']; ?></td>
                 </tr>
                 <tr>
@@ -144,6 +171,14 @@ include "../inc/rupiah.php";
                     <td><?php echo date("d-M-Y", strtotime($data['tgl_bayar'])); ?></td>
                 </tr>
             </table>
+
+            <hr>
+
+            <!-- ✅ QR Code untuk validasi pembayaran -->
+            <div class="qrcode">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=<?php echo urlencode($data['id_tagihan']); ?>" alt="QR Code">
+            </div>
+
         <?php } ?>
 
         <div class="footer">
