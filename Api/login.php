@@ -3,7 +3,7 @@ header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 include "../inc/koneksi.php";
-
+include "isolir.php";
 
 // Cek koneksi
 if ($koneksi->connect_error) {
@@ -18,6 +18,7 @@ if ($koneksi->connect_error) {
 $data = json_decode(file_get_contents("php://input"), true);
 $id_pelanggan = isset($data['id_pelanggan']) ? $koneksi->real_escape_string($data['id_pelanggan']) : '';
 $no_hp = isset($data['no_hp']) ? $koneksi->real_escape_string($data['no_hp']) : '';
+isolir($id_pelanggan);
 
 // Validasi input
 if (empty($id_pelanggan) || empty($no_hp)) {

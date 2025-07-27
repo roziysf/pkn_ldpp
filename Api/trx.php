@@ -1,6 +1,7 @@
 <?php
 header('Content-Type: application/json');
 include "../inc/koneksi.php"; // Pastikan file koneksi benar
+include "../mikrotik/function.php";
 
 $apiKey = 'DEV-vgWgbRdNekzH7TDliWXVoXrjt6tXxU9iV7ULIcct';
 
@@ -84,6 +85,7 @@ if ($status === 'PAID') {
             $updatePelanggan = "UPDATE tb_pelanggan 
                                 SET id_paket = '$id_paket' 
                                 WHERE id_pelanggan = '$id_pelanggan'";
+            $mt->updatePaket($id_pelanggan, $id_paket); 
             mysqli_query($koneksi, $updatePelanggan);
         }
     }

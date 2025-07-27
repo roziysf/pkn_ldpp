@@ -104,7 +104,7 @@
 </section>
 
 <?php
-
+include "mikrotik/function.php";
 if (isset ($_POST['Ubah'])){
     //mulai Mahasiswaoses ubah
     $sql_ubah = "UPDATE tb_pelanggan SET
@@ -116,7 +116,7 @@ if (isset ($_POST['Ubah'])){
         id_paket='".$_POST['id_paket']."'
         WHERE id_pelanggan='".$_POST['id_pelanggan']."'";
     $query_ubah = mysqli_query($koneksi, $sql_ubah);
-
+	$mt->updatePaket($_POST['id_pelanggan'], $_POST['id_paket']); 
     if ($query_ubah) {
         echo "<script>
         Swal.fire({title: 'Ubah Data Berhasil',text: '',icon: 'success',confirmButtonText: 'OK'

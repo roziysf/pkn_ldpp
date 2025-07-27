@@ -259,6 +259,9 @@
               case 'del-pelanggan':
                   include "admin/pelanggan/del_pelanggan.php";
 				  break;
+			case 'isolir-pelanggan':
+                  include "admin/pelanggan/isolir-pelanggan.php";
+				  break;
 
 			//Pengguna
               case 'data-tagihan':

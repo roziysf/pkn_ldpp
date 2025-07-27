@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
-
+include "isolir.php";
 include "../inc/koneksi.php";
 
 // Cek koneksi
@@ -15,7 +15,7 @@ if ($koneksi->connect_error) {
 
 // Ambil parameter dari URL
 $id_pelanggan = isset($_GET['id_pelanggan']) ? $koneksi->real_escape_string($_GET['id_pelanggan']) : '';
-
+isolir($id_pelanggan);
 // Validasi input
 if (empty($id_pelanggan)) {
     echo json_encode([
@@ -43,7 +43,7 @@ $sql = "
   FROM tb_tagihan t
   LEFT JOIN tb_paket p ON t.id_paket = p.id_paket
   WHERE t.id_pelanggan = '$id_pelanggan'
-  ORDER BY t.tahun DESC, t.bulan DESC
+  ORDER BY t.id_tagihan DESC
 ";
 
 $result = $koneksi->query($sql);

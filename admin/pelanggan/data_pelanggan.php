@@ -65,9 +65,17 @@
 								 class="btn btn-warning">
 									<i class="glyphicon glyphicon-edit"></i>
 								</a>
+								<a href="?page=isolir-pelanggan&kode=<?php echo $data['id_pelanggan']; ?>" onclick="return confirm('Yakin isolir Data Ini ?')"
+								 title="Isolir" class="btn btn-primary">
+									<i class="glyphicon glyphicon-lock"></i>
+				 				 </a>
+								
 								<a href="?page=del-pelanggan&kode=<?php echo $data['id_pelanggan']; ?>" onclick="return confirm('Yakin Hapus Data Ini ?')"
 								 title="Hapus" class="btn btn-danger">
 									<i class="glyphicon glyphicon-remove"></i>
+				  				</a>
+								
+								
 							</td>
 						</tr>
 						<?php
